@@ -12,13 +12,12 @@ logging.basicConfig(
 
 # read config ini
 config = configparser.ConfigParser()
-config.read('config/config.ini')
+config.read('../config/config.ini')
 
 CHAT_GPT_KEY = config['ChatGPT']['api_key']
 TELEGRAM_TOKEN = config['Telegram']['token']
 
 chatgpt = ChatGPT(CHAT_GPT_KEY)
-
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="Olá, eu sou o ChatGPT!")
@@ -27,7 +26,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def receive_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logging.debug(f"Received message from {update.effective_chat.id}: {update.message.text}")
     logging.info(f"Asking ChatGPT....")
-    response = chatgpt.ask(update.message.text)
+    response = chatgpt.ask(update.message.text, update.effective_chat.id)
     logging.debug(f"ChatGPT response: {response}")
     logging.info(f"ChatGPT response completed!")
     await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
@@ -42,4 +41,7 @@ if __name__ == '__main__':
     application.add_handler(message_handler)
 
     application.run_polling()
+
+
+
 

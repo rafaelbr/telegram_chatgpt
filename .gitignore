@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# JetBrains
+.idea/
+
+config/config_local.ini

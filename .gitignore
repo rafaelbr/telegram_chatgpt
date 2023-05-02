@@ -131,4 +131,4 @@ dmypy.json
 # JetBrains
 .idea/
 
-config/config_local.ini
+src/config/config_local.ini

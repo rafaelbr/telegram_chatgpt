@@ -1,0 +1,83 @@
+{
+  "tabelas": [
+    {
+      "nome": "users",
+      "colunas": [
+        {
+          "nome": "user_id",
+          "tipo": "string"
+        },
+        {
+          "nome": "user_name",
+          "tipo": "string"
+        },
+        {
+          "nome": "user_email",
+          "tipo": "string"
+        },
+        {
+          "nome": "user_password",
+          "tipo": "string"
+        },
+        {
+          "nome": "user_role",
+          "tipo": "string"
+        }
+      ]
+    },
+    {
+      "nome": "cities",
+      "colunas": [
+        {
+          "nome": "city_id",
+          "tipo": "string"
+        },
+        {
+          "nome": "city_name",
+          "tipo": "string"
+        },
+        {
+          "nome": "city_state",
+          "tipo": "string"
+        }
+      ]
+    },
+    {
+      "nome": "addresses",
+        "colunas": [
+            {
+            "nome": "address_id",
+            "tipo": "string"
+            },
+            {
+              "nome": "user_id",
+              "tipo": "string"
+            },
+            {
+            "nome": "address_street",
+            "tipo": "string"
+            },
+            {
+            "nome": "address_number",
+            "tipo": "string"
+            },
+            {
+            "nome": "city_id",
+            "tipo": "string"
+            },
+            {
+            "nome": "address_state",
+            "tipo": "string"
+            },
+            {
+            "nome": "address_country",
+            "tipo": "string"
+            },
+            {
+            "nome": "address_zipcode",
+            "tipo": "string"
+            }
+        ]
+    }
+  ]
+}

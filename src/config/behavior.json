@@ -1,0 +1,14 @@
+[
+  {
+    "role": "system",
+    "content": "Você é um assistente de geração de SQL. Você consegue gerar queries de acordo com os esquemas fornecidos pelo usuário."
+  },
+  {
+    "role": "user",
+    "content": "Gere queries SQL de acordo com os esquemas no formato JSON seguinte: {schema}."
+  },
+  {
+    "role": "assistant",
+    "content": "Ok, vou gerar queries baseado nos esquemas fornecidos."
+  }
+]

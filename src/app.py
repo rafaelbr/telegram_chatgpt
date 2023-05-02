@@ -1,9 +1,9 @@
 import configparser
 import logging
-from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
+import os
 
-from chatgpt import ChatGPT
+from services.chatgpt import ChatGPT
+from services.telegram_helper import TelegramHelper
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -11,37 +11,20 @@ logging.basicConfig(
 )
 
 # read config ini
+script_dir = os.path.dirname(__file__)
 config = configparser.ConfigParser()
-config.read('../config/config.ini')
+config_file_path = os.path.join(script_dir, 'config/config.ini')
+config.read(config_file_path)
 
 CHAT_GPT_KEY = config['ChatGPT']['api_key']
+CHAT_GPT_MODEL = config['ChatGPT']['model']
 TELEGRAM_TOKEN = config['Telegram']['token']
 
-chatgpt = ChatGPT(CHAT_GPT_KEY)
+chatgpt = ChatGPT(CHAT_GPT_KEY, CHAT_GPT_MODEL)
+telegram_helper = TelegramHelper(TELEGRAM_TOKEN, chatgpt)
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Olá, eu sou o ChatGPT!")
-
-
-async def receive_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logging.debug(f"Received message from {update.effective_chat.id}: {update.message.text}")
-    logging.info(f"Asking ChatGPT....")
-    response = chatgpt.ask(update.message.text, update.effective_chat.id)
-    logging.debug(f"ChatGPT response: {response}")
-    logging.info(f"ChatGPT response completed!")
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
-
-    start_handler = CommandHandler('start', start)
-    message_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), receive_text)
-    application.add_handler(start_handler)
-    application.add_handler(message_handler)
-
-    application.run_polling()
-
-
-
+    telegram_helper.run()
 

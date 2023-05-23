@@ -6,8 +6,10 @@ import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 
+from src.services.voice_rss import VoiceRSS
 from src.utils.session_manager import SessionManager
 
+voice = VoiceRSS()
 
 class TelegramHelper:
     def __init__(self, token, chatgpt):
@@ -28,7 +30,10 @@ class TelegramHelper:
         logging.debug(f"ChatGPT response: {response}")
         logging.info(f"ChatGPT response completed!")
         SessionManager.getInstance().add_message(update.effective_chat.id, "assistant", response)
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
+        voice_data = voice.get_voice(response)
+        #await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
+        await context.bot.send_voice(chat_id=update.effective_chat.id, voice=voice_data)
+
 
     def run(self):
         start_handler = CommandHandler('start', self.start)
